@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Catchphrase</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>Catchphrase</h1>
+      <p class="tagline">Capture a phrase. Understand it. Own it.</p>
+      <button id="settings-btn" class="icon-btn" title="Settings" aria-label="Settings">⚙</button>
+      <div id="anki-status" class="status-dot" title="Checking AnkiConnect…"></div>
+    </header>
+
+    <!-- Onboarding / setup banners -->
+    <div id="setup-banner" class="banner hidden">
+      <div class="banner-content">
+        <strong id="setup-title"></strong>
+        <p id="setup-body"></p>
+        <div id="setup-actions" class="banner-actions"></div>
+      </div>
+    </div>
+
+    <main>
+      <!-- Input section -->
+      <section class="input-section">
+        <div class="input-row">
+          <input
+            id="phrase-input"
+            type="text"
+            placeholder="Enter a phrase or idiom…"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button id="enrich-btn" class="btn-primary">
+            <span class="btn-label">Enrich</span>
+            <span class="btn-spinner hidden">⟳</span>
+          </button>
+        </div>
+        <p class="hint">e.g. "bite the bullet", "hit the ground running", "read the room"</p>
+      </section>
+
+      <!-- Card preview -->
+      <section id="card-section" class="card-section hidden">
+        <div class="card">
+          <div class="card-front">
+            <div class="card-label">PHRASE</div>
+            <h2 id="card-phrase" contenteditable="true"></h2>
+          </div>
+
+          <div class="card-back">
+            <div class="field-group">
+              <label>Definition</label>
+              <div id="card-definition" contenteditable="true" class="editable"></div>
+            </div>
+
+            <div class="field-group">
+              <label>Examples</label>
+              <div id="card-examples" class="examples-list"></div>
+            </div>
+
+            <div class="field-row">
+              <div class="field-group half">
+                <label>Register</label>
+                <select id="card-register">
+                  <option value="informal">informal</option>
+                  <option value="neutral">neutral</option>
+                  <option value="formal">formal</option>
+                  <option value="slang">slang</option>
+                  <option value="idiomatic">idiomatic</option>
+                </select>
+              </div>
+              <div class="field-group half">
+                <label>Similar phrases</label>
+                <div id="card-similar" contenteditable="true" class="editable"></div>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label>Usage notes</label>
+              <div id="card-notes" contenteditable="true" class="editable"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Send to Anki -->
+        <div class="send-row">
+          <select id="deck-select" class="deck-select">
+            <option value="">Loading decks…</option>
+          </select>
+          <button id="add-btn" class="btn-success">
+            <span class="btn-label">Add to Anki</span>
+            <span class="btn-spinner hidden">⟳</span>
+          </button>
+        </div>
+
+        <div id="add-status" class="add-status hidden"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Settings modal -->
+  <div id="settings-modal" class="modal-overlay hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Settings</h2>
+        <button class="icon-btn" id="settings-close" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="field-group">
+          <label for="api-key-input">Gemini API key</label>
+          <input id="api-key-input" type="password" placeholder="AIza…" autocomplete="off" spellcheck="false" />
+          <p class="hint">
+            Free key from
+            <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">aistudio.google.com</a>.
+            Stored only in your browser.
+          </p>
+        </div>
+        <div class="field-group">
+          <label>AnkiConnect add-on code</label>
+          <code class="code-block">2055492159</code>
+          <p class="hint">In Anki: Tools → Add-ons → Get Add-ons → paste this code.</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="settings-save" class="btn-primary"><span class="btn-label">Save</span></button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
