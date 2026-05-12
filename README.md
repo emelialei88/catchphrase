@@ -2,6 +2,8 @@
 
 Capture English phrases and idioms, enrich them with AI, and send the cards to Anki.
 
+![Catchphrase demo](docs/screenshot.png)
+
 ## How it works
 
 1. Type a phrase ("bite the bullet", "read the room"…)
@@ -13,7 +15,9 @@ Capture English phrases and idioms, enrich them with AI, and send the cards to A
 
 ```bash
 pip install -r requirements.txt
-./start.sh
+
+./start.sh     # macOS / Linux
+start.bat      # Windows
 ```
 
 Open <http://localhost:7823>. On first run, you'll be prompted to:
@@ -26,7 +30,7 @@ Open <http://localhost:7823>. On first run, you'll be prompted to:
 
 ## Requirements
 
-- **Anki desktop** installed. The backend auto-launches it for you on macOS when Catchphrase starts (and exposes a "Launch Anki" button in the UI if it's ever closed).
+- **Anki desktop** installed. Catchphrase auto-launches it on macOS, Windows, and Linux when the backend starts (and exposes a "Launch Anki" button in the UI if it's ever closed).
 - **AnkiConnect** add-on: in Anki → Tools → Add-ons → Get Add-ons → code `2055492159`
 - **AnkiWeb account** configured in Anki preferences if you want phone sync
 
@@ -41,6 +45,6 @@ Open <http://localhost:7823>. On first run, you'll be prompted to:
 
 ## Limits to know
 
-- Anki desktop must be running (AnkiConnect lives inside the Anki process). Catchphrase auto-launches Anki on macOS when it starts, but on Windows/Linux you'll need to open Anki yourself.
+- Anki desktop must be running (AnkiConnect lives inside the Anki process). Catchphrase auto-launches it on all major platforms.
 - Gemini free tier sends your inputs to Google for training. Don't paste anything sensitive.
 - Duplicate phrases in the same deck are rejected by AnkiConnect.
