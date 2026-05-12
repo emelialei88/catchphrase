@@ -1,15 +1,21 @@
 # Catchphrase
 
-Capture English phrases and idioms, enrich them with AI, and send the cards to Anki.
+**The frictionless way to remember English phrases and idioms.**
+
+You hear a great phrase — "*read the room*", "*hit the ground running*" — and you want to actually *use* it next time. So you reach for Anki. Then you remember: Anki is a spaced-repetition powerhouse, but its card-creation flow is brutal. Note types. Field templates. CSS for styling. Manual definitions. Sourcing example sentences. By the time you finish one card, the moment has passed.
+
+**Catchphrase removes every step between *"that's a cool phrase"* and *"it's on my phone, ready to drill."***
 
 ![Catchphrase demo](docs/screenshot.png)
 
 ## How it works
 
 1. Type a phrase ("bite the bullet", "read the room"…)
-2. **Enrich** — Gemini fills in definition, 3 example sentences, register, usage notes, and similar phrases
-3. Edit anything inline
-4. **Add to Anki** — card lands in your `Catchphrase` deck and auto-syncs to AnkiWeb
+2. **Enrich** — Gemini fills in a clean definition, 3 natural example sentences, register, usage notes, and similar phrases
+3. Edit anything inline if you don't like the AI's take
+4. **Add to Anki** — card lands in your `Catchphrase` deck and auto-syncs to AnkiWeb, ready on your phone in seconds
+
+No note-type setup. No template editing. No copy-pasting from dictionaries. Just capture → enrich → send.
 
 ## Setup
 
