@@ -22,15 +22,18 @@ STATIC_DIR = Path(__file__).parent / "static"
 
 
 def launch_anki_if_needed():
-    """Best-effort launch of the Anki desktop app on macOS. Silently no-ops elsewhere."""
-    if sys.platform != "darwin":
-        return
+    """Best-effort launch of the Anki desktop app. Silently no-ops if Anki isn't installed."""
     try:
-        subprocess.Popen(
-            ["open", "-a", "Anki"],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-        )
+        if sys.platform == "darwin":
+            cmd = ["open", "-a", "Anki"]
+        elif sys.platform.startswith("win"):
+            # `start` is a cmd builtin, so shell=True is required.
+            subprocess.Popen("start \"\" anki", shell=True,
+                             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            return
+        else:  # linux / *bsd
+            cmd = ["anki"]
+        subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     except Exception:
         pass
 
@@ -191,7 +194,7 @@ async def get_config():
 @app.post("/api/launch-anki")
 async def launch_anki():
     launch_anki_if_needed()
-    return {"launched": sys.platform == "darwin"}
+    return {"launched": True, "platform": sys.platform}
 
 
 # ── Static files (frontend) ───────────────────────────────────────────────────
