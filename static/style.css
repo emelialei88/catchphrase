@@ -99,6 +99,13 @@ header h1 {
   margin-top: 0.5rem;
   padding-left: 0.25rem;
 }
+.suggestion {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.15s;
+  cursor: pointer;
+}
+.suggestion:hover { color: var(--accent); }
 
 /* ── Buttons ─────────────────────────────────── */
 .btn-primary, .btn-success {
