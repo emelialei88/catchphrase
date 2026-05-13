@@ -29,7 +29,24 @@ Grab the latest release from the [Releases page](https://github.com/emelialei88/
 
 Your browser opens automatically to `http://localhost:7823`.
 
-> First time on macOS, you may need to right-click → **Open** to bypass the Gatekeeper warning (the app isn't notarized yet).
+### macOS: getting past the "developer cannot be verified" warning
+
+The first time you launch Catchphrase, macOS will block it because the app isn't signed by an Apple-registered developer (costs \$99/year, not worth it yet). It's a **one-time** bypass — pick whichever method works for you:
+
+**Option A — Right-click trick**
+1. Right-click `Catchphrase.app` → **Open** (don't double-click)
+2. Click **Open** in the dialog that appears
+3. From now on, double-clicking works normally
+
+**Option B — Privacy & Security panel** (use if Option A is also blocked)
+1. Try double-clicking → see the warning → click **Cancel**
+2. Open **System Settings → Privacy & Security**
+3. Scroll down to *"Catchphrase was blocked from use"* and click **Open Anyway**
+
+**Option C — Terminal one-liner** (if both above fail)
+```bash
+xattr -dr com.apple.quarantine /Applications/Catchphrase.app
+```
 
 ### Option 2 — Run from source
 
