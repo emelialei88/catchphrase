@@ -306,7 +306,45 @@ checkAnki = async function () {
   refreshBanner();
 };
 
+/* ── Daily phrase suggestions ────────────────── */
+const PHRASE_POOL = [
+  "bite the bullet", "hit the ground running", "read the room",
+  "spill the beans", "burn the midnight oil", "cut to the chase",
+  "the elephant in the room", "by the skin of your teeth", "throw shade",
+  "ghost someone", "play it by ear", "rain on someone's parade",
+  "let the cat out of the bag", "under the weather", "piece of cake",
+  "wing it", "on the fence", "go down a rabbit hole",
+  "drop the ball", "blow off steam", "pull someone's leg",
+  "the best of both worlds", "speak of the devil", "hit the sack",
+  "miss the boat", "a blessing in disguise", "out of the blue",
+  "barking up the wrong tree", "your two cents", "off the cuff",
+  "running on fumes", "a hot take", "make it click",
+  "back to the drawing board", "the jury's still out",
+];
+
+function renderSuggestions() {
+  const el = document.getElementById("phrase-suggestions");
+  if (!el) return;
+  // Stable per-day index using UTC day number.
+  const dayIndex = Math.floor(Date.now() / 86_400_000);
+  const out = [];
+  for (let i = 0; i < 3; i++) {
+    out.push(PHRASE_POOL[(dayIndex * 3 + i) % PHRASE_POOL.length]);
+  }
+  el.innerHTML = out.map(p =>
+    `<a href="#" class="suggestion" data-phrase="${escHtml(p)}">"${escHtml(p)}"</a>`
+  ).join(", ");
+  el.querySelectorAll(".suggestion").forEach(a => {
+    a.addEventListener("click", e => {
+      e.preventDefault();
+      phraseInput.value = a.dataset.phrase;
+      phraseInput.focus();
+    });
+  });
+}
+
 /* ── Init ────────────────────────────────────── */
+renderSuggestions();
 loadServerConfig();
 checkAnki();
 loadDecks();
