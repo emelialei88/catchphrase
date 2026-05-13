@@ -18,7 +18,11 @@ ANKI_URL = os.getenv("ANKI_CONNECT_URL", "http://localhost:8765")
 GEMINI_KEY = os.getenv("GEMINI_API_KEY")
 GEMINI_MODEL = "gemini-2.5-flash"
 GEMINI_URL = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent"
-STATIC_DIR = Path(__file__).parent / "static"
+if getattr(sys, "frozen", False):
+    BASE_DIR = Path(sys._MEIPASS)
+else:
+    BASE_DIR = Path(__file__).parent
+STATIC_DIR = BASE_DIR / "static"
 
 
 def launch_anki_if_needed():

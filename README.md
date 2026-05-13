@@ -17,7 +17,21 @@ You hear a great phrase — "*read the room*", "*hit the ground running*" — an
 
 No note-type setup. No template editing. No copy-pasting from dictionaries. Just capture → enrich → send.
 
-## Setup
+## Install
+
+### Option 1 — Download (recommended)
+
+Grab the latest release from the [Releases page](https://github.com/emelialei88/catchphrase/releases) and unzip:
+
+- **macOS**: drag `Catchphrase.app` to `/Applications` → double-click to launch
+- **Windows**: extract the zip → run `Catchphrase.exe`
+- **Linux**: extract the tar.gz → run `./Catchphrase`
+
+Your browser opens automatically to `http://localhost:7823`.
+
+> First time on macOS, you may need to right-click → **Open** to bypass the Gatekeeper warning (the app isn't notarized yet).
+
+### Option 2 — Run from source
 
 ```bash
 pip install -r requirements.txt
@@ -41,6 +55,14 @@ Open <http://localhost:7823>. On first run, you'll be prompted to:
 - **AnkiWeb account** configured in Anki preferences if you want phone sync
 
 > The Anki app needs to be running because AnkiConnect lives inside Anki — but Catchphrase handles starting it for you. You can leave Anki minimized in the dock. For zero friction, add Anki to **System Settings → General → Login Items** so it's always running.
+
+## Building binaries yourself
+
+```bash
+./build.sh
+```
+
+Produces `dist/Catchphrase.app` (macOS), `dist/Catchphrase.exe` (Windows), or `dist/Catchphrase` (Linux). Cross-platform release binaries are built automatically via GitHub Actions on every `v*` tag.
 
 ## Stack
 
