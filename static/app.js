@@ -130,20 +130,14 @@ function renderCard(data) {
     const row = document.createElement("div");
     row.className = "example-item";
     row.innerHTML = `<span class="example-num">${i + 1}</span>`;
-    const ta = document.createElement("textarea");
-    ta.className = "example-text";
-    ta.value = ex;
-    ta.rows = 1;
-    ta.addEventListener("input", autoResize);
-    autoResize.call(ta);
-    row.appendChild(ta);
+    const txt = document.createElement("div");
+    txt.className = "example-text";
+    txt.contentEditable = "true";
+    txt.spellcheck = false;
+    txt.textContent = ex;
+    row.appendChild(txt);
     cardExamples.appendChild(row);
   });
-}
-
-function autoResize() {
-  this.style.height = "auto";
-  this.style.height = this.scrollHeight + "px";
 }
 
 /* ── Add to Anki ─────────────────────────────── */
@@ -153,7 +147,7 @@ async function addToAnki() {
   const deck = deckSelect.value;
   if (!deck) { showStatus("Select a deck first", "err"); return; }
 
-  const examples = [...cardExamples.querySelectorAll(".example-text")].map(t => t.value.trim()).filter(Boolean);
+  const examples = [...cardExamples.querySelectorAll(".example-text")].map(t => t.textContent.trim()).filter(Boolean);
   const similar  = cardSimilar.textContent.split(",").map(s => s.trim()).filter(Boolean);
 
   const payload = {

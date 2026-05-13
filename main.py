@@ -18,7 +18,11 @@ ANKI_URL = os.getenv("ANKI_CONNECT_URL", "http://localhost:8765")
 GEMINI_KEY = os.getenv("GEMINI_API_KEY")
 GEMINI_MODEL = "gemini-2.5-flash"
 GEMINI_URL = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent"
-STATIC_DIR = Path(__file__).parent / "static"
+if getattr(sys, "frozen", False):
+    BASE_DIR = Path(sys._MEIPASS)
+else:
+    BASE_DIR = Path(__file__).parent
+STATIC_DIR = BASE_DIR / "static"
 
 
 def launch_anki_if_needed():
@@ -80,19 +84,24 @@ class AddCardRequest(BaseModel):
 
 
 ENRICH_PROMPT = """\
-You are a linguistics expert helping an English learner capture natural phrases and idioms.
+You are helping a fluent English speaker capture phrases and idioms for active recall.
 
 Given the phrase: "{phrase}"
 
 Return a JSON object (and ONLY the JSON object, no markdown fences) with these keys:
 - "phrase": the canonical form of the phrase (clean it up if needed)
-- "definition": a clear, concise definition in 1-2 sentences
-- "examples": array of exactly 3 natural example sentences using this phrase
+- "definition": a plain-English definition written the way Wiktionary does it — one short
+  sentence, everyday words, no jargon. Skip phrases like "refers to" or "is used to describe".
+  Just say what it means. Example style: "To start something new with energy and skill,
+  doing well right away." If the phrase has multiple senses, give the most common one only.
+- "examples": array of exactly 3 natural example sentences using this phrase. Keep each
+  under ~15 words. Use varied everyday contexts (work, friends, family — not all business).
 - "register": one of "formal", "informal", "neutral", "slang", or "idiomatic"
-- "notes": practical usage notes — when to use it, what to avoid, cultural context (2-3 sentences)
+- "notes": one or two short sentences on when and how people actually use this — tone,
+  context, anything that surprises learners. No dictionary stiffness.
 - "similar": array of 2-3 closely related phrases or synonyms
 
-Be specific and practical. Avoid dictionary-style stiffness.\
+Write like you're explaining to a friend, not writing a dictionary entry.\
 """
 
 
