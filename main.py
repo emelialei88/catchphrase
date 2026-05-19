@@ -157,22 +157,57 @@ async def anki_status():
         return {"connected": False}
 
 
+def _build_back(req: "AddCardRequest") -> str:
+    """Build the Back field as self-contained HTML.
+
+    Anki's "Basic" note type doesn't carry our web app's CSS, so we inline
+    everything. We use semantic HTML + minimal inline styling so the card
+    looks correct in both Anki desktop and AnkiMobile, light and dark themes.
+    """
+    LABEL = (
+        "color:#6c8eff;font-weight:700;font-size:0.85em;"
+        "letter-spacing:0.05em;text-transform:uppercase;"
+    )
+    META = "opacity:0.7;font-size:0.9em;"
+    SECTION_GAP = "margin-top:1.25em;"
+
+    examples_html = "".join(
+        f"<div style='margin:0.5em 0;'>"
+        f"<span style='{LABEL}'>Example {i}</span><br>{e}"
+        f"</div>"
+        for i, e in enumerate(req.examples, start=1)
+    )
+
+    parts = [
+        # Definition
+        f"<div style='font-size:1.05em;line-height:1.5;'>{req.definition}</div>",
+        # Examples
+        f"<div style='{SECTION_GAP}'>{examples_html}</div>",
+        # Register (own line)
+        f"<div style='{SECTION_GAP}{META}'>Register: <b>{req.style}</b></div>",
+    ]
+
+    if req.similar:
+        similar_html = ", ".join(f"<i>{s}</i>" for s in req.similar)
+        # "See also" gets its own line (was previously inline with register)
+        parts.append(
+            f"<div style='margin-top:0.4em;{META}'>See also: {similar_html}</div>"
+        )
+
+    if req.notes:
+        # Notes section: clearly separated with a top border + gap
+        parts.append(
+            f"<div style='{SECTION_GAP}padding-top:0.9em;"
+            f"border-top:1px solid rgba(128,128,128,0.25);line-height:1.5;'>"
+            f"{req.notes}</div>"
+        )
+
+    return f"<div style='font-family:-apple-system,system-ui,sans-serif;'>{''.join(parts)}</div>"
+
+
 @app.post("/api/add-card")
 async def add_card(req: AddCardRequest):
-    examples_html = "".join(f"<li>{e}</li>" for e in req.examples)
-    similar_html = ", ".join(f"<em>{s}</em>" for s in req.similar)
-
-    back = f"""\
-<div class="catchphrase-card">
-  <div class="definition">{req.definition}</div>
-  <div class="section-label">Examples</div>
-  <ul class="examples">{examples_html}</ul>
-  <div class="meta">
-    <span class="register">{req.style}</span>
-    {"<span class='similar'>See also: " + similar_html + "</span>" if req.similar else ""}
-  </div>
-  {"<div class='notes'>" + req.notes + "</div>" if req.notes else ""}
-</div>"""
+    back = _build_back(req)
 
     note_id = await anki(
         "addNote",
